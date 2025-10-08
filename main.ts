@@ -1,14 +1,12 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
-
-// Remember to rename these classes and interfaces!
+import { App, Plugin, PluginSettingTab, Setting } from "obsidian";
 
 interface StkPluginSettings {
 	actionsRoot: string;
 }
 
 const DEFAULT_SETTINGS: StkPluginSettings = {
-	actionsRoot: ""
-}
+	actionsRoot: "",
+};
 
 export default class ObsidianStkPlugin extends Plugin {
 	settings: StkPluginSettings;
@@ -18,12 +16,14 @@ export default class ObsidianStkPlugin extends Plugin {
 		this.addSettingTab(new StkSettingsTab(this.app, this));
 	}
 
-	onunload() {
-
-	}
+	onunload() {}
 
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+		this.settings = Object.assign(
+			{},
+			DEFAULT_SETTINGS,
+			await this.loadData(),
+		);
 	}
 
 	async saveSettings() {
@@ -40,19 +40,21 @@ class StkSettingsTab extends PluginSettingTab {
 	}
 
 	display(): void {
-		const {containerEl} = this;
+		const { containerEl } = this;
 
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName('actionsRoot')
-			.setDesc('Root to query tasks')
-			.addText(text => text
-				.setPlaceholder('Actions Root')
-				.setValue(this.plugin.settings.actionsRoot)
-				.onChange(async (value) => {
-					this.plugin.settings.actionsRoot = value;
-					await this.plugin.saveSettings();
-				}));
+			.setName("actionsRoot")
+			.setDesc("Root to query tasks")
+			.addText((text) =>
+				text
+					.setPlaceholder("Actions Root")
+					.setValue(this.plugin.settings.actionsRoot)
+					.onChange(async (value) => {
+						this.plugin.settings.actionsRoot = value;
+						await this.plugin.saveSettings();
+					}),
+			);
 	}
 }
