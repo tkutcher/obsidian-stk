@@ -1,4 +1,5 @@
 import { App, Plugin, PluginSettingTab, Setting } from "obsidian";
+import { tkdv } from "./src/xt-dataview";
 
 interface StkPluginSettings {
 	actionsRoot: string;
@@ -8,11 +9,28 @@ const DEFAULT_SETTINGS: StkPluginSettings = {
 	actionsRoot: "",
 };
 
+declare global {
+	interface Window {
+		tk: {
+			hello: () => void;
+			dvDebug: any;
+		};
+	}
+}
+
 export default class ObsidianStkPlugin extends Plugin {
 	settings: StkPluginSettings;
 
 	async onload() {
+		// Create global namespace for helpers
+		window.tk = window.tk || {};
+		window.tk.hello = () => {
+			console.log("hello, world");
+		};
+		window.tk.dvDebug = tkdv;
+
 		await this.loadSettings();
+
 		this.addSettingTab(new StkSettingsTab(this.app, this));
 	}
 
