@@ -1,6 +1,6 @@
 import { App, Plugin, PluginSettingTab, Setting } from "obsidian";
-import { tkdv } from "./src/xt-dataview-legacy";
-import { TkdvApi } from "./src/xt-dataview-legacy";
+import { tkdv } from "./src/tk-dataview-legacy";
+import { TkdvApi } from "./src/tk-dataview-legacy";
 import { TkDataviewApi } from "./src/tk-dataview";
 
 interface StkPluginSettings {
