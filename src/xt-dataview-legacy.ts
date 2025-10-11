@@ -1,14 +1,15 @@
-/* ========================================================================= */
-/* ================================ API Start ============================== */
+import { STask } from "obsidian-dataview";
+import { SMarkdownPage } from "obsidian-dataview";
+import { DataviewApi } from "obsidian-dataview";
 
 const PROJECTS_ROOT = "";
 
-const stripTaskText = (task) =>
+const stripTaskText = (task: STask) =>
 	task.tags.length === 0
 		? task.text
-		: task.text.substr(0, task.text.indexOf(task.tags[0])).trim();
+		: task.text.substring(0, task.text.indexOf(task.tags[0])).trim();
 
-const _getPriorityIndicator = (task) => {
+const _getPriorityIndicator = (task: STask) => {
 	if (task.priority && task.priority >= 4) {
 		return "🔴";
 	} else if (task.priority && task.priority >= 2) {
@@ -18,7 +19,7 @@ const _getPriorityIndicator = (task) => {
 	}
 };
 
-const _getTimeIndicators = (task) => {
+const _getTimeIndicators = (task: STask) => {
 	let timeIndicatorString = "";
 	if (task.target) {
 		timeIndicatorString += `(🎯${task.target.month}/${task.target.day})`;
@@ -29,7 +30,7 @@ const _getTimeIndicators = (task) => {
 	return timeIndicatorString;
 };
 
-const renderText = (task, page, tagsToOmit) => {
+const renderText = (task: STask, page: SMarkdownPage, tagsToOmit: string[]) => {
 	const link = `[[${page.file.name}]]`;
 	let tags = task.tags.toString().replace(",", " ");
 	tagsToOmit.forEach((omission) => {
@@ -41,9 +42,9 @@ const renderText = (task, page, tagsToOmit) => {
 	return `${prefix} **${link}**: ${stripTaskText(task)} ${tags} ${timeIndicators}`;
 };
 
-const getTaskPriority = (task, page) => {
+const getTaskPriority = (task: STask, page: SMarkdownPage) => {
 	let taskPriority = 0;
-	for (let c of task.text) {
+	for (const c of task.text) {
 		if (c === "!") {
 			++taskPriority;
 		}
@@ -52,19 +53,25 @@ const getTaskPriority = (task, page) => {
 	return taskPriority;
 };
 
-const renderTasks = (dv, config) => {
+interface RenderTasksConfig {
+	rootPage: string;
+	match: (task: STask, page: SMarkdownPage) => boolean;
+	omitInDisplay: string[];
+}
+
+const renderTasks = (dv: DataviewApi, config: RenderTasksConfig) => {
 	const rootPage = config.rootPage;
 	const match = config.match;
-	const omitInDisplay = config.omitInDisplay;
+	// const omitInDisplay = config.omitInDisplay;
 
 	const pages = dv.pages(`"${rootPage}"`);
 	const tasks = [];
 
 	for (const page of pages) {
-		for (let task of page.file.tasks) {
-			if (!task.completed && match(task, page)) {
+		for (const task of page.file.tasks) {
+			if (match(task, page)) {
 				task.priority = getTaskPriority(task, page);
-				task.text = renderText(task, page, omitInDisplay);
+				task.visual = renderText(task, page, []);
 				tasks.push(task);
 			}
 		}
@@ -75,13 +82,19 @@ const renderTasks = (dv, config) => {
 	dv.taskList(tasks, false);
 };
 
-const renderNextActions = (dv, config) => {
+const renderNextActions = (dv: DataviewApi, config: RenderTasksConfig) => {
 	renderTasks(dv, {
 		rootPage: PROJECTS_ROOT,
 		match: config.match,
 		omitInDisplay: ["#next"],
 	});
 };
+
+export interface TkdvApi {
+	PROJECTS_ROOT: string;
+	renderTasks: (dv: DataviewApi, config: RenderTasksConfig) => void;
+	renderNextActions: (dv: DataviewApi, config: RenderTasksConfig) => void;
+}
 
 export const tkdv = {
 	renderTasks,

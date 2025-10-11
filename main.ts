@@ -1,5 +1,6 @@
 import { App, Plugin, PluginSettingTab, Setting } from "obsidian";
-import { tkdv } from "./src/xt-dataview";
+import { tkdv } from "./src/xt-dataview-legacy";
+import { TkdvApi } from "./src/xt-dataview-legacy";
 
 interface StkPluginSettings {
 	actionsRoot: string;
@@ -13,7 +14,7 @@ declare global {
 	interface Window {
 		tk: {
 			hello: () => void;
-			dvDebug: any;
+			dvLegacy: TkdvApi;
 		};
 	}
 }
@@ -27,7 +28,7 @@ export default class ObsidianStkPlugin extends Plugin {
 		window.tk.hello = () => {
 			console.log("hello, world");
 		};
-		window.tk.dvDebug = tkdv;
+		window.tk.dvLegacy = tkdv;
 
 		await this.loadSettings();
 
