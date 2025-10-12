@@ -90,13 +90,13 @@ const renderNextActions = (dv: DataviewApi, config: RenderTasksConfig) => {
 	});
 };
 
-export interface TkdvApi {
+export interface TkdvLegacyApi {
 	PROJECTS_ROOT: string;
 	renderTasks: (dv: DataviewApi, config: RenderTasksConfig) => void;
 	renderNextActions: (dv: DataviewApi, config: RenderTasksConfig) => void;
 }
 
-export const tkdv = {
+export const tkdvLegacy = {
 	renderTasks,
 	renderNextActions,
 	PROJECTS_ROOT,

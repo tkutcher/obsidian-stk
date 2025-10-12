@@ -1,3 +1,3 @@
-import { ObsidianStkPlugin } from "./src/obsidian-plugins";
+import { ObsidianStkPlugin } from "./src/obsidian-stk";
 
 export default ObsidianStkPlugin;
