@@ -34,11 +34,11 @@ export class TkTaskCompletionFeature {
 				!TkTaskCompletionFeature.HAS_COMPLETION_METADATA.test(line)
 			) {
 				modified = true;
-				const today = new Date().toISOString().slice(0, 10);
+				const now = new Date();
 				// Append inline metadata cleanly with a space separator
 				return (
 					line.trimEnd() +
-					` [${TkTaskCompletionFeature.COMPLETED_WHEN_PROPERTY}:: ${today}]`
+					` [${TkTaskCompletionFeature.COMPLETED_WHEN_PROPERTY}:: ${now.toLocaleDateString()}]`
 				);
 			}
 
