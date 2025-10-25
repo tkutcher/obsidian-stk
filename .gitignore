@@ -1,22 +1,53 @@
-# vscode
-.vscode 
+## Project Specific
 
-# Intellij
-*.iml
-.idea
-
-# npm
-node_modules
-
-# Don't include the compiled main.js file in the repo.
-# They should be uploaded to GitHub releases instead.
 main.js
-
-# Exclude sourcemaps
 *.map
-
-# obsidian
 data.json
+obsidian-stk-dev-vault/.obsidian/*
 
-# Exclude macOS Finder (System Explorer) View States
+
+## CI/Testing Output
+.outputs/
+.output/
+
+## Environment Files
+.env
+
+## Temporary/Local Directories
+.local/
+tmp/
+
+## System Files
 .DS_Store
+Thumbs.db
+
+## IDE's
+# JetBrains
+.idea/*
+!.idea/*.iml
+!.idea/runConfigurations
+!.idea/dictionaries
+!.idea/copyright
+
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Sublime
+*.sublime-workspace
+
+## Compiled Output
+/dist
+/local-lib
+/tmp
+/out-tsc
+/bazel-out
+
+## Dependencies
+/node_modules
+**/node_modules
+

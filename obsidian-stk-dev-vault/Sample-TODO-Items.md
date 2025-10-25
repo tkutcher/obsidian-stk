@@ -1,0 +1,2 @@
+- [x] Test item 1 [completed_when:: 2025-10-25]
+- [ ] Test item 2
