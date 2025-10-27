@@ -1,2 +1,3 @@
-- [x] Test item 1 [completed_when:: 2025-10-25]
+- [x] Test item 1 [completed_when:: 2025-10-25] #next
+- [x] High priority test item !!!!!!! [completed_when:: 2025-10-27] #next 
 - [ ] Test item 2
