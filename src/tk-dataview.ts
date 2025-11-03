@@ -81,12 +81,13 @@ export class TkDataviewApi {
 		const display = query.display ?? standardTaskDisplay;
 		const tasks = dv
 			.pages(query.pagesQuery)
-			.flatMap<STask>((page) => page.file.tasks ?? [])
+			.flatMap<STask>((page) => page.file?.["tasks"] ?? [])
 			.map<TkTask>((task) => new TkTask(task))
 			.filter((task) => query.taskMatch(task))
 			.sort((task) => task.getPriority(), "desc")
 			.map<STask>((task) => task.unwrap(display));
-		// @ts-ignore - Something wrong with types for this?
+
+		// @ts-ignore
 		return dv.taskList(tasks, false);
 	}
 }

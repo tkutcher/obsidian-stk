@@ -1,6 +1,7 @@
 import { STask } from "obsidian-dataview";
 import { SMarkdownPage } from "obsidian-dataview";
 import { DataviewApi } from "obsidian-dataview";
+import {DataArray} from "obsidian-dataview";
 
 const PROJECTS_ROOT = "";
 
@@ -22,10 +23,10 @@ const _getPriorityIndicator = (task: STask) => {
 const _getTimeIndicators = (task: STask) => {
 	let timeIndicatorString = "";
 	if (task.target) {
-		timeIndicatorString += `(🎯${task.target.month}/${task.target.day})`;
+		timeIndicatorString += `(🎯${task.target["month"]}/${task.target["day"]})`;
 	}
 	if (task.due) {
-		timeIndicatorString += `(📆${task.due.month}/${task.due.day})`;
+		timeIndicatorString += `(📆${task.due["month"]}/${task.due["day"]})`;
 	}
 	return timeIndicatorString;
 };
@@ -64,7 +65,7 @@ const renderTasks = (dv: DataviewApi, config: RenderTasksConfig) => {
 	const match = config.match;
 	// const omitInDisplay = config.omitInDisplay;
 
-	const pages = dv.pages(`"${rootPage}"`);
+	const pages = dv.pages(`"${rootPage}"`) as DataArray<SMarkdownPage>;
 	const tasks = [];
 
 	for (const page of pages) {
@@ -79,7 +80,8 @@ const renderTasks = (dv: DataviewApi, config: RenderTasksConfig) => {
 
 	tasks.sort((a, b) => b.priority - a.priority);
 
-	dv.taskList(tasks, false);
+	// @ts-ignore
+	dv.taskList(tasks, false).then();
 };
 
 const renderNextActions = (dv: DataviewApi, config: RenderTasksConfig) => {

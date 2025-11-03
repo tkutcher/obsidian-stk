@@ -15,7 +15,8 @@
 		"typeRoots": [
 			"./node_modules/@types",
 			"./node_modules/obsidian-dataview/lib"
-		]
+		],
+		"types": ["node", "obsidian"]
 	},
 	"include": ["**/*.ts"]
 }
